@@ -1,17 +1,27 @@
-#![allow(unused)]
 use reqwest::Result;
 use serde::{Deserialize, Serialize};
-use serde_json::Value;
-use std::collections::HashMap;
+
+#[derive(Debug, Deserialize, Serialize)]
+struct Definition {
+    source: String,
+    text: String,
+    note: Option<String>,
+    #[serde(rename(deserialize = "partOfSpeech"))]
+    part_of_speech: String,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+struct ExampleUsage {
+    url: String,
+    title: String,
+    text: String,
+    id: i32,
+}
 
 #[derive(Debug, Deserialize, Serialize)]
 struct WordOfTheDay {
-    #[serde(rename(deserialize = "contentProvider"))]
-    content_provider: HashMap<String, Value>,
-    definitions: Vec<HashMap<String, Value>>,
-    examples: Vec<HashMap<String, Value>>,
-    #[serde(rename(deserialize = "htmlExtra"))]
-    html_extra: Option<String>,
+    definitions: Vec<Definition>,
+    examples: Vec<ExampleUsage>,
     note: String,
     word: String,
 }
